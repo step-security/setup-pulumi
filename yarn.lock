@@ -41,6 +41,13 @@ __metadata:
   languageName: node
   linkType: hard
 
+"@actions/io@npm:^3.0.2":
+  version: 3.0.2
+  resolution: "@actions/io@npm:3.0.2"
+  checksum: 10c0/25fae323886544f965e90ab9655e3fb60816eb379c78418c4b06a5dc9da27810eb5b0bd0629146dbd5482a03e3c60a5b8713223e4f789abede23df643ddcae8c
+  languageName: node
+  linkType: hard
+
 "@actions/tool-cache@npm:^3.0.1":
   version: 3.0.1
   resolution: "@actions/tool-cache@npm:3.0.1"
@@ -3072,7 +3079,7 @@ __metadata:
   resolution: "setup-pulumi@workspace:."
   dependencies:
     "@actions/core": "npm:^2.0.3"
-    "@actions/io": "npm:^2.0.0"
+    "@actions/io": "npm:^3.0.2"
     "@actions/tool-cache": "npm:^3.0.1"
     "@types/jest": "npm:^29"
     "@types/node": "npm:^26.6.6"
