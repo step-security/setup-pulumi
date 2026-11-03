@@ -1,0 +1,92 @@
+name: "Test action-install-pulumi-cli"
+on:
+  pull_request:
+  push:
+    branches:
+      - main
+
+jobs:
+  unit:
+    name: Unit Test
+    strategy:
+      matrix:
+        platform: ${{ github.actor == 'dependabot[bot]' && fromJSON('["ubuntu-latest"]') || fromJSON('["ubuntu-latest", "macos-latest", "windows-latest"]') }}
+    runs-on: ${{ matrix.platform }}
+    steps:
+      - uses: actions/setup-node@v7
+        with:
+          node-version: '24.x'
+      - uses: actions/checkout@v7
+      - run: corepack enable
+      - run: yarn install --immutable
+      - run: yarn test
+  latest:
+    name: Test Latest Version Install
+    strategy:
+      matrix:
+        platform: ${{ github.actor == 'dependabot[bot]' && fromJSON('["ubuntu-latest"]') || fromJSON('["ubuntu-latest", "macos-latest", "windows-latest"]') }}
+    runs-on: ${{ matrix.platform }}
+    steps:
+      - uses: actions/setup-node@v7
+        with:
+          node-version: '24.x'
+      - uses: actions/checkout@v7
+      - run: corepack enable
+      - run: yarn install --immutable
+      - run: yarn package
+      - uses: ./
+      - run: pulumi version
+  specific:
+    name: Test Specific Version Install
+    strategy:
+      matrix:
+        platform: ${{ github.actor == 'dependabot[bot]' && fromJSON('["ubuntu-latest"]') || fromJSON('["ubuntu-latest", "macos-latest", "windows-latest"]') }}
+    runs-on: ${{ matrix.platform }}
+    steps:
+      - uses: actions/setup-node@v7
+        with:
+          node-version: '24.x'
+      - uses: actions/checkout@v7
+      - run: corepack enable
+      - run: yarn install --immutable
+      - run: yarn package
+      - uses: ./
+        with:
+          pulumi-version: 2.5.0
+      - run: pulumi version
+  patch-range:
+    name: Test Patch Range Version Install
+    strategy:
+      matrix:
+        platform: ${{ github.actor == 'dependabot[bot]' && fromJSON('["ubuntu-latest"]') || fromJSON('["ubuntu-latest", "macos-latest", "windows-latest"]') }}
+    runs-on: ${{ matrix.platform }}
+    steps:
+      - uses: actions/setup-node@v7
+        with:
+          node-version: '24.x'
+      - uses: actions/checkout@v7
+      - run: corepack enable
+      - run: yarn install --immutable
+      - run: yarn package
+      - uses: ./
+        with:
+          pulumi-version: 3.3.*
+      - run: pulumi version
+  major-range:
+    name: Test Patch Range Version Install
+    strategy:
+      matrix:
+        platform: ${{ github.actor == 'dependabot[bot]' && fromJSON('["ubuntu-latest"]') || fromJSON('["ubuntu-latest", "macos-latest", "windows-latest"]') }}
+    runs-on: ${{ matrix.platform }}
+    steps:
+      - uses: actions/setup-node@v7
+        with:
+          node-version: '24.x'
+      - uses: actions/checkout@v7
+      - run: corepack enable
+      - run: yarn install --immutable
+      - run: yarn package
+      - uses: ./
+        with:
+          pulumi-version: ^3.0.0
+      - run: pulumi version
